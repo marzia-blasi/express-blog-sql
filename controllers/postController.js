@@ -1,10 +1,12 @@
 //importiamo posts da data
+//const posts = require("../data/posts.js");
 
-const posts = require("../data/posts.js");
+//importiamo i post dal connection con il db
+
+const connection = require("../db/connection.js");
 
 // Index + bonus
 const index = (req, res) => {
-  // res.json(posts);
   let filterposts = posts;
 
   if (req.query.tags) {
