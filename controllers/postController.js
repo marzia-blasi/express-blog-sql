@@ -22,13 +22,13 @@ const index = (req, res) => {
 
 // Show + Bonus
 const show = (req, res) => {
-  console.log(req.params);
   //conversione id in numero
   const id = parseInt(req.params.id);
+  const sql = "SELECT * FROM posts WHERE id = ? ";
+  console.log(sql);
+  res.send("test");
 
-  //ricerca dell'id (cicla dentro posts per restituirci il singolo elemento post)
-  const post = posts.find((posts) => posts.id === id);
-
+  /*
   if (!post) {
     return res.json({
       error: "Not Found",
@@ -37,6 +37,7 @@ const show = (req, res) => {
   }
 
   res.json(post);
+  */
 };
 
 //Store
