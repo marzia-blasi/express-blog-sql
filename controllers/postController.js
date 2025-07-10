@@ -25,19 +25,25 @@ const show = (req, res) => {
   //conversione id in numero
   const id = parseInt(req.params.id);
   const sql = "SELECT * FROM posts WHERE id = ? ";
-  console.log(sql);
-  res.send("test");
+  // console.log(sql);
 
-  /*
-  if (!post) {
-    return res.json({
-      error: "Not Found",
-      message: "Post non trovato",
-    });
-  }
+  connection.query(sql, [id], (err, results) => {
+    if (err) {
+      return res.status(500).json({
+        error: true,
+        message: err.message,
+      });
+    }
 
-  res.json(post);
-  */
+    if (!results.length > 0) {
+      return res.status(404).json({
+        error: "true",
+        message: "Post non trovato",
+      });
+    }
+
+    res.json(results[0]);
+  });
 };
 
 //Store

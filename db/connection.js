@@ -19,7 +19,7 @@ connection.connect((err) => {
   if (err) {
     throw err;
   }
-  console.info("✅ Connection works");
+  console.info("✅ Connection DB works");
 });
 
 module.exports = connection;
