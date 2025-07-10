@@ -109,24 +109,29 @@ const modify = (req, res) => {
 
 //Destroy + Bonus
 const destroy = (req, res) => {
-  //conversione id in numero
   const id = parseInt(req.params.id);
 
-  //ricerca dell'id
-  const post = posts.find((posts) => posts.id === id);
+  const sql = "DELETE * FROM posts WHERE id = ? ";
+  console.log(sql);
 
-  if (!post) {
-    res.status(404);
+  connection.query(sql, [id], (err, results) => {
+    if (err) {
+      return res.status(500).json({
+        error: true,
+        message: err.message,
+      });
+    }
+    console.log(results);
 
-    return res.json({
-      status: 404,
-      error: "Not Found",
-      message: "Post non trovato",
-    });
-  }
-  // troviamo il post e lo rimuoviamo
-  posts.splice(posts.indexOf(post), 1);
-  console.log(posts);
+    /*
+    if (!results.affectedRows === 0) {
+      return res.status(404).json({
+        error: "true",
+        message: "Post non trovato",
+      });
+    }
+    */
+  });
 
   //status
   res.sendStatus(204);
