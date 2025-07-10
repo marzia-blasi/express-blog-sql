@@ -7,13 +7,17 @@ const connection = require("../db/connection.js");
 
 // Index + bonus
 const index = (req, res) => {
-  let filterposts = posts;
+  const sql = "SELECT * FROM posts";
 
-  if (req.query.tags) {
-    filterposts = posts.filter((post) => post.tags.includes(req.query.tags));
-  }
-
-  res.json(filterposts);
+  connection.query(sql, (err, results) => {
+    if (err)
+      return res.status(500).json({
+        error: true,
+        message: err.message,
+      });
+    console.log(results);
+    res.json(results);
+  });
 };
 
 // Show + Bonus

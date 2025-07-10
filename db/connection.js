@@ -13,7 +13,7 @@ const credentials = {
 
 const connection = mysql.createConnection(credentials);
 
-console.log(connection);
+//console.log(connection);
 
 connection.connect((err) => {
   if (err) {
