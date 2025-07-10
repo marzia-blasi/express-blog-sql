@@ -111,8 +111,8 @@ const modify = (req, res) => {
 const destroy = (req, res) => {
   const id = parseInt(req.params.id);
 
-  const sql = "DELETE * FROM posts WHERE id = ? ";
-  console.log(sql);
+  const sql = "DELETE FROM posts WHERE id = ?";
+  console.log(id);
 
   connection.query(sql, [id], (err, results) => {
     if (err) {
@@ -123,18 +123,16 @@ const destroy = (req, res) => {
     }
     console.log(results);
 
-    /*
-    if (!results.affectedRows === 0) {
+    if (results.affectedRows === 0) {
       return res.status(404).json({
         error: "true",
         message: "Post non trovato",
       });
     }
-    */
-  });
 
-  //status
-  res.sendStatus(204);
+    //status
+    res.sendStatus(204);
+  });
 };
 
 module.exports = {
