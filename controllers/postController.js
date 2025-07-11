@@ -67,25 +67,17 @@ const store = (req, res) => {
 const update = (req, res) => {
   //conversione id in numero
   const id = parseInt(req.params.id);
+  const { title, content, image } = req.body;
 
-  //ricerca dell'id
-  const post = posts.find((posts) => posts.id === id);
+  const sql = "UPDATE posts SET title = ?, content = ?, image = ?, WHERE id =?";
 
-  if (!post) {
-    return res.json({
-      error: "Not Found",
-      message: "Post non trovato",
-    });
-  }
-
-  // parametro da aggiornare
-  (post.title = req.body.title),
-    (post.content = req.body.content),
-    (post.image = req.body.image),
-    (post.tags = req.body.tags),
-    console.log(posts);
-
-  res.json(post);
+  connection.query(sql, [title, content, image, id], (err, results) => {
+    if (err)
+      return res.status(500).json({
+        error: true,
+        message: "Post non trovato",
+      });
+  });
 };
 
 //Modify
