@@ -1,11 +1,8 @@
-//importiamo posts da data
-//const posts = require("../data/posts.js");
-
 //importiamo i post dal connection con il db
 
 const connection = require("../db/connection.js");
 
-// Index + bonus
+// Index
 const index = (req, res) => {
   const sql = "SELECT * FROM posts";
 
@@ -20,7 +17,7 @@ const index = (req, res) => {
   });
 };
 
-// Show + Bonus
+// Show
 const show = (req, res) => {
   //conversione id in numero
   const id = parseInt(req.params.id);
@@ -46,29 +43,24 @@ const show = (req, res) => {
   });
 };
 
-//Store
+//Store (bonus) reinserito post 2 con nuovo ID 6
 const store = (req, res) => {
-  console.log(req.body);
+  // INSERT INTO posts (title, content, image) VALUES (?,?,?)
 
-  //nuovo id che s'incrementa dopo quello già esistente
-  const newId = posts[posts.length - 1].id + 1;
-  //oggetto post
-  const newPost = {
-    id: newId,
-    title: req.body.title,
-    content: req.body.content,
-    image: req.body.image,
-    tags: req.body.tags,
-  };
+  console.log(req.body, "eccolo il req.body");
+  const { title, content, image } = req.body;
 
-  //aggiunta a posts
-  posts.push(newPost);
-
-  console.log(posts);
-
-  // status + json
-  res.status(201);
-  res.json(newPost);
+  const sql = "INSERT INTO posts (title, content, image) VALUES (?,?,?)";
+  //if scritto senza {}
+  connection.query(sql, [title, content, image], (err, results) => {
+    if (err)
+      return res.status(500).json({
+        error: true,
+        message: err.message,
+      });
+    console.log(results);
+    res.status(201).json({ id: results.insertId });
+  });
 };
 
 //Update
@@ -107,7 +99,7 @@ const modify = (req, res) => {
   res.send(`mododifica parzialmente il post n ${id}`);
 };
 
-//Destroy + Bonus
+//Destroy
 const destroy = (req, res) => {
   const id = parseInt(req.params.id);
 
